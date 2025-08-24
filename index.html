@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andrés Hernández | Portafolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="settings-panel-container">
+        <button id="settings-toggle-btn" aria-label="Abrir panel de configuración">⚙️</button>
+        <div id="settings-panel" class="settings-panel">
+            </div>
+    </div>
+
+    <div id="splash-screen">
+        <div class="splash-content">
+            <h1 class="glitch" id="countdown-text" data-text="3">3</h1>
+            <p>Iniciando secuencia...</p>
+        </div>
+    </div>
+
+    <header class="header">
+        <nav class="navbar">
+            <a href="#inicio" class="nav-link active">Inicio</a>
+            <a href="#habilidades" class="nav-link">Habilidades</a>
+            <a href="#proyectos" class="nav-link">Proyectos</a>
+            <a href="#contacto" class="nav-link">Contacto</a>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <section id="inicio" class="section active">
+            <div class="intro-container">
+                <h1 class="glitch" data-text="Hola, soy Andrés Hernández">Hola, soy Andrés Hernández</h1>
+                <p>Desarrollador de Software enfocado en el diseño y la innovación. 💻</p>
+            </div>
+        </section>
+
+        <section id="habilidades" class="section">
+            <h2 class="section-title">Habilidades</h2>
+            <div class="skills-grid">
+                </div>
+        </section>
+
+        <section id="proyectos" class="section">
+            <h2 class="section-title">Mis Proyectos</h2>
+
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="html-css">HTML/CSS</button>
+                <button class="filter-btn" data-filter="javascript">JavaScript</button>
+                <button class="filter-btn" data-filter="react">React</button>
+                <button class="filter-btn" data-filter="node">Node.js</button>
+            </div>
+
+            <div class="projects-grid">
+                </div>
+        </section>
+
+        <section id="contacto" class="section">
+            <h2 class="section-title">Contáctame</h2>
+            <div class="contact-info">
+                <p>Siéntete libre de contactarme por correo o a través de mis redes:</p>
+                <a href="#" target="_blank">GitHub</a>
+                <a href="#" target="_blank">WhatsApp</a>
+            </div>
+
+            <form id="contact-form" action="https://formspree.io/f/xjkebkla" method="POST">
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="_replyto" required>
+
+                <label for="message">Mensaje:</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+
+                <button type="submit">Enviar Mensaje</button>
+            </form>
+            <div id="form-status"></div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,434 @@
+/* Paleta de colores monocromática y futurista */
+:root {
+    --color-primary: #00A6FB; /* Un azul cian brillante */
+    --color-secondary: #0582CA; /* Azul un poco más oscuro */
+    --color-background: #0D1B2A; /* Azul marino oscuro casi negro */
+    --color-text-light: #E0FBFC; /* Blanco azulado muy claro */
+    --color-text-dark: #BCCBEB; /* Gris azulado */
+    --font-mono: 'Roboto Mono', monospace;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-background);
+    color: var(--color-text-light);
+    font-family: var(--font-mono);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+/* --- Estilos del Panel de Control --- */
+.settings-panel-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+#settings-toggle-btn {
+    background-color: rgba(20, 39, 63, 0.8);
+    color: var(--color-text-light);
+    border: none;
+    padding: 0.7rem 1rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#settings-toggle-btn:hover {
+    background-color: var(--color-primary);
+}
+
+.settings-panel {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background-color: rgba(20, 39, 63, 0.9);
+    border-radius: 5px;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 250px;
+}
+
+.settings-panel.open {
+    display: flex;
+}
+
+.settings-panel-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--color-text-light);
+}
+
+.settings-panel-option label {
+    margin-right: 1rem;
+}
+
+.settings-panel-option button {
+    background-color: var(--color-secondary);
+    color: var(--color-text-light);
+    border: none;
+    padding: 0.4rem 0.7rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.settings-panel-option button:hover {
+    background-color: var(--color-primary);
+}
+
+/* --- Efecto: Lluvia de Código Binario --- */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        transparent,
+        transparent 50px,
+        rgba(0, 166, 251, 0.1) 50px,
+        rgba(0, 166, 251, 0.1) 51px
+    );
+    background-size: 100% 100px;
+    z-index: -1;
+    animation: binary-rain 5s linear infinite;
+}
+
+@keyframes binary-rain {
+    from { background-position: 0 0; }
+    to { background-position: 0 100%; }
+}
+
+/* --- Splash Screen --- */
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 1.5s ease;
+}
+
+.splash-content {
+    text-align: center;
+}
+
+#splash-screen .glitch {
+    font-size: 8rem;
+}
+
+/* --- Efecto Glitch --- */
+.glitch {
+    position: relative;
+    font-size: 3rem;
+    color: var(--color-text-light);
+    animation: glitch 1.5s infinite;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-background);
+    overflow: hidden;
+}
+
+.glitch::before {
+    left: 2px;
+    text-shadow: -2px 0 var(--color-primary);
+    animation: glitch-before 1.5s infinite;
+}
+
+.glitch::after {
+    left: -2px;
+    text-shadow: -2px 0 var(--color-secondary);
+    animation: glitch-after 1.5s infinite;
+}
+
+@keyframes glitch {
+    0% { transform: none; opacity: 1; }
+    7% { transform: skewX(-20deg); opacity: 0.8; }
+    14% { transform: skewX(0); opacity: 1; }
+}
+
+@keyframes glitch-before {
+    0% { transform: none; }
+    7% { transform: translate(-2px, 0); }
+    14% { transform: translate(2px, 0); }
+}
+@keyframes glitch-after {
+    0% { transform: none; }
+    7% { transform: translate(2px, 0); }
+    14% { transform: translate(-2px, 0); }
+}
+
+/* --- Estilos Generales --- */
+.header {
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.navbar {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--color-text-light);
+    padding: 0.5rem 1rem;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-top: 100px;
+}
+
+.section {
+    min-height: calc(100vh - 100px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.section.active {
+    display: flex;
+}
+
+/* --- Secciones y Contenedores --- */
+.intro-container {
+    padding: 2rem;
+    border: 1px solid var(--color-primary);
+    box-shadow: 0 0 15px var(--color-primary);
+    max-width: 600px;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+/* --- Estilos para los filtros de proyectos --- */
+.filters {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.filter-btn {
+    background-color: transparent;
+    border: 1px solid var(--color-secondary);
+    color: var(--color-text-dark);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    transition: all 0.3s ease;
+    border-radius: 5px;
+}
+
+.filter-btn:hover, .filter-btn.active {
+    background-color: var(--color-secondary);
+    color: var(--color-text-light);
+    border-color: var(--color-primary);
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    width: 80%;
+    max-width: 1200px;
+}
+
+/* Regla para ocultar los proyectos */
+.project-card.hidden {
+    display: none;
+}
+
+.project-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    border: 1px solid var(--color-secondary);
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 166, 251, 0.3);
+}
+
+.project-tags {
+    display: block;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: var(--color-primary);
+}
+
+.contact-info a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-size: 1.2rem;
+    margin: 0 1rem;
+    transition: color 0.3s ease;
+}
+
+.contact-info a:hover {
+    color: var(--color-text-light);
+}
+
+/* --- Estilos para la sección de Habilidades --- */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 2rem;
+    width: 90%;
+    max-width: 900px;
+    margin-top: 2rem;
+}
+
+.skill-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--color-secondary);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.skill-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 166, 251, 0.3);
+}
+
+.skill-title {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: var(--color-primary);
+}
+
+.skill-canvas {
+    width: 120px;
+    height: 120px;
+}
+
+/* --- Estilos para el Formulario de Contacto --- */
+#contacto {
+    flex-direction: column;
+}
+
+#contact-form {
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 2rem;
+    border: 1px solid var(--color-primary);
+    box-shadow: 0 0 15px var(--color-primary);
+}
+
+#contact-form label {
+    align-self: flex-start;
+    color: var(--color-text-dark);
+}
+
+#contact-form input,
+#contact-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: transparent;
+    border: 1px solid var(--color-secondary);
+    color: var(--color-text-light);
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    resize: vertical;
+}
+
+#contact-form input:focus,
+#contact-form textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 5px var(--color-primary);
+}
+
+#contact-form button {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    border: none;
+    padding: 1rem;
+    font-size: 1rem;
+    font-family: var(--font-mono);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#contact-form button:hover {
+    background-color: var(--color-secondary);
+    transform: translateY(-2px);
+}
+
+#form-status {
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: var(--color-text-light);
+}
+
+.success-message {
+    color: #00ff00; /* Verde brillante */
+}
+
+.error-message {
+    color: #ff0000; /* Rojo brillante */
+}
+
+/* --- Estilos de la sección de contacto --- */
+.contact-info {
+    margin-bottom: 2rem;
+}
