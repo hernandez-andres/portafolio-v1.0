@@ -3,16 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Andrés Hernández | Portafolio</title>
+    
+    <title>Andrés Hernández | Portafolio de Desarrollador</title>
+    <meta name="description" content="Portafolio de Andrés Hernández, desarrollador Full Stack especializado en JavaScript, React y desarrollo web responsivo.">
+    <meta name="keywords" content="Andrés Hernández, desarrollador, portafolio, Full Stack, JavaScript, React, Node.js, HTML, CSS, programador">
+    <meta name="author" content="Andrés Hernández">
+    
+    <meta property="og:title" content="Andrés Hernández | Portafolio">
+    <meta property="og:description" content="Portafolio de desarrollador Full Stack con proyectos creativos e innovadores.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.tu-dominio.com"> <meta property="og:image" content="https://www.tu-dominio.com/imagen-portafolio.jpg"> <meta property="og:site_name" content="Portafolio de Andrés Hernández">
+
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="cyber-theme">
 
     <div class="settings-panel-container">
         <button id="settings-toggle-btn" aria-label="Abrir panel de configuración">⚙️</button>
         <div id="settings-panel" class="settings-panel">
+            <div class="settings-options">
+                <span class="option-label">Tema</span>
+                <div class="theme-options">
+                    <button class="theme-btn active" data-theme="cyber" aria-label="Tema Cyberpunk">🔵</button>
+                    <button class="theme-btn" data-theme="light" aria-label="Tema claro">⚪</button>
+                    <button class="theme-btn" data-theme="dark" aria-label="Tema oscuro">⚫</button>
+                </div>
             </div>
+            <div class="settings-options">
+                <span class="option-label">Animaciones</span>
+                <label class="switch">
+                    <input type="checkbox" id="animations-toggle" checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
     </div>
 
     <div id="splash-screen">
@@ -23,19 +48,41 @@
     </div>
 
     <header class="header">
-        <nav class="navbar">
-            <a href="#inicio" class="nav-link active">Inicio</a>
-            <a href="#habilidades" class="nav-link">Habilidades</a>
-            <a href="#proyectos" class="nav-link">Proyectos</a>
-            <a href="#contacto" class="nav-link">Contacto</a>
-        </nav>
+        <div id="cyber-map-container">
+            <svg id="cyber-map" width="100%" height="100%" viewBox="0 0 800 100">
+                <line id="path-inicio-habilidades" class="cyber-path" x1="100" y1="50" x2="300" y2="50" />
+                <line id="path-habilidades-proyectos" class="cyber-path" x1="300" y1="50" x2="500" y2="50" />
+                <line id="path-proyectos-contacto" class="cyber-path" x1="500" y1="50" x2="700" y2="50" />
+
+                <g class="cyber-node-group" data-target="inicio">
+                    <circle class="cyber-node-bg" cx="100" cy="50" r="40" />
+                    <circle class="cyber-node-inner" cx="100" cy="50" r="35" />
+                    <text class="cyber-node-label" x="100" y="50">Inicio</text>
+                </g>
+                <g class="cyber-node-group" data-target="habilidades">
+                    <circle class="cyber-node-bg" cx="300" cy="50" r="40" />
+                    <circle class="cyber-node-inner" cx="300" cy="50" r="35" />
+                    <text class="cyber-node-label" x="300" y="50">Habilidades</text>
+                </g>
+                <g class="cyber-node-group" data-target="proyectos">
+                    <circle class="cyber-node-bg" cx="500" cy="50" r="40" />
+                    <circle class="cyber-node-inner" cx="500" cy="50" r="35" />
+                    <text class="cyber-node-label" x="500" y="50">Proyectos</text>
+                </g>
+                <g class="cyber-node-group" data-target="contacto">
+                    <circle class="cyber-node-bg" cx="700" cy="50" r="40" />
+                    <circle class="cyber-node-inner" cx="700" cy="50" r="35" />
+                    <text class="cyber-node-label" x="700" y="50">Contacto</text>
+                </g>
+            </svg>
+        </div>
     </header>
 
     <main class="main-content">
         <section id="inicio" class="section active">
             <div class="intro-container">
                 <h1 class="glitch" data-text="Hola, soy Andrés Hernández">Hola, soy Andrés Hernández</h1>
-                <p>Desarrollador de Software enfocado en el diseño y la innovación. 💻</p>
+                <p>Desarrollador Full Stack con un enfoque en interfaces de usuario intuitivas y código escalable.</p>
             </div>
         </section>
 
@@ -46,8 +93,7 @@
         </section>
 
         <section id="proyectos" class="section">
-            <h2 class="section-title">Mis Proyectos</h2>
-
+            <h2 class="section-title">Proyectos</h2>
             <div class="filters">
                 <button class="filter-btn active" data-filter="all">Todos</button>
                 <button class="filter-btn" data-filter="html-css">HTML/CSS</button>
@@ -64,8 +110,8 @@
             <h2 class="section-title">Contáctame</h2>
             <div class="contact-info">
                 <p>Siéntete libre de contactarme por correo o a través de mis redes:</p>
-                <a href="#" target="_blank">GitHub</a>
-                <a href="#" target="_blank">WhatsApp</a>
+                <a href="https://github.com/hernandez-andres" target="_blank">GitHub</a>
+                <a href="https://wa.me/56984025253" target="_blank">WhatsApp</a>
             </div>
 
             <form id="contact-form" action="https://formspree.io/f/xjkebkla" method="POST">
@@ -83,6 +129,10 @@
             <div id="form-status"></div>
         </section>
     </main>
+
+    <footer class="main-footer">
+        <a href="privacidad.html" class="privacy-link">Política de Privacidad</a>
+    </footer>
 
     <script src="script.js"></script>
 </body>

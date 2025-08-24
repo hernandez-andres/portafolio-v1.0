@@ -1,4 +1,4 @@
-/* Paleta de colores monocromática y futurista */
+/* Paleta de colores para el tema Cyberpunk (por defecto) */
 :root {
     --color-primary: #00A6FB; /* Un azul cian brillante */
     --color-secondary: #0582CA; /* Azul un poco más oscuro */
@@ -8,6 +8,34 @@
     --font-mono: 'Roboto Mono', monospace;
 }
 
+/* Tema Claro */
+body.light-theme {
+    --color-primary: #0077b6;
+    --color-secondary: #0096c7;
+    --color-background: #f0f0f0;
+    --color-text-light: #333333;
+    --color-text-dark: #666666;
+}
+
+/* Tema Oscuro */
+body.dark-theme {
+    --color-primary: #33aaff;
+    --color-secondary: #0077b6;
+    --color-background: #000000;
+    --color-text-light: #ffffff;
+    --color-text-dark: #cccccc;
+}
+
+/* Tema Cyberpunk (por defecto) */
+body.cyber-theme {
+    --color-primary: #00A6FB;
+    --color-secondary: #0582CA;
+    --color-background: #0D1B2A;
+    --color-text-light: #E0FBFC;
+    --color-text-dark: #BCCBEB;
+}
+
+/* Estilos globales y de reseteo */
 * {
     margin: 0;
     padding: 0;
@@ -22,7 +50,110 @@ body {
     flex-direction: column;
     min-height: 100vh;
     position: relative;
+    overflow-x: hidden;
+    transition: background-color 0.5s ease;
+}
+
+/* --- Efectos y animaciones globales --- */
+.glitch {
+    position: relative;
+    font-size: 3rem;
+    color: var(--color-text-light);
+    animation: glitch 1.5s infinite;
+}
+
+.glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-background);
     overflow: hidden;
+}
+
+.glitch::before {
+    left: 2px;
+    text-shadow: -2px 0 var(--color-primary);
+    animation: glitch-before 1.5s infinite;
+}
+
+.glitch::after {
+    left: -2px;
+    text-shadow: -2px 0 var(--color-secondary);
+    animation: glitch-after 1.5s infinite;
+}
+
+@keyframes glitch {
+    0% { transform: none; opacity: 1; }
+    7% { transform: skewX(-20deg); opacity: 0.8; }
+    14% { transform: skewX(0); opacity: 1; }
+}
+
+@keyframes glitch-before {
+    0% { transform: none; }
+    7% { transform: translate(-2px, 0); }
+    14% { transform: translate(2px, 0); }
+}
+@keyframes glitch-after {
+    0% { transform: none; }
+    7% { transform: translate(2px, 0); }
+    14% { transform: translate(-2px, 0); }
+}
+
+/* Efecto: Lluvia de Código Binario */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        transparent,
+        transparent 50px,
+        var(--color-primary) 50px,
+        var(--color-primary) 51px
+    );
+    background-size: 100% 100px;
+    z-index: -1;
+    opacity: 0.1;
+    animation: binary-rain 5s linear infinite;
+    transition: background-color 0.5s ease;
+}
+
+body.no-animations::before {
+    animation: none;
+    background: none;
+}
+
+@keyframes binary-rain {
+    from { background-position: 0 0; }
+    to { background-position: 0 100%; }
+}
+
+/* --- Splash Screen --- */
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 1.5s ease;
+}
+
+.splash-content {
+    text-align: center;
+}
+
+#splash-screen .glitch {
+    font-size: 8rem;
 }
 
 /* --- Estilos del Panel de Control --- */
@@ -66,131 +197,94 @@ body {
     display: flex;
 }
 
-.settings-panel-option {
+.settings-options {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: var(--color-text-light);
+    padding: 0.5rem 0;
+    gap: 1rem;
 }
 
-.settings-panel-option label {
-    margin-right: 1rem;
+.option-label {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
 }
 
-.settings-panel-option button {
-    background-color: var(--color-secondary);
-    color: var(--color-text-light);
-    border: none;
-    padding: 0.4rem 0.7rem;
-    border-radius: 3px;
+.theme-options {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.theme-btn {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 2px solid transparent;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: border-color 0.3s ease;
+    font-size: 1rem;
+    background-color: transparent;
 }
 
-.settings-panel-option button:hover {
+.theme-btn:hover,
+.theme-btn.active {
+    border-color: var(--color-primary);
+}
+
+[data-theme="cyber"] { background-color: #0D1B2A; }
+[data-theme="light"] { background-color: #f0f0f0; }
+[data-theme="dark"] { background-color: #000000; }
+
+/* Estilos para el switch (palanca) */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--color-secondary);
+    transition: .4s;
+    border-radius: 20px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: var(--color-text-light);
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
     background-color: var(--color-primary);
 }
 
-/* --- Efecto: Lluvia de Código Binario --- */
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: repeating-linear-gradient(
-        transparent,
-        transparent 50px,
-        rgba(0, 166, 251, 0.1) 50px,
-        rgba(0, 166, 251, 0.1) 51px
-    );
-    background-size: 100% 100px;
-    z-index: -1;
-    animation: binary-rain 5s linear infinite;
+input:checked + .slider:before {
+    transform: translateX(20px);
 }
 
-@keyframes binary-rain {
-    from { background-position: 0 0; }
-    to { background-position: 0 100%; }
-}
-
-/* --- Splash Screen --- */
-#splash-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--color-background);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: opacity 1.5s ease;
-}
-
-.splash-content {
-    text-align: center;
-}
-
-#splash-screen .glitch {
-    font-size: 8rem;
-}
-
-/* --- Efecto Glitch --- */
-.glitch {
-    position: relative;
-    font-size: 3rem;
-    color: var(--color-text-light);
-    animation: glitch 1.5s infinite;
-}
-
-.glitch::before,
-.glitch::after {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--color-background);
-    overflow: hidden;
-}
-
-.glitch::before {
-    left: 2px;
-    text-shadow: -2px 0 var(--color-primary);
-    animation: glitch-before 1.5s infinite;
-}
-
-.glitch::after {
-    left: -2px;
-    text-shadow: -2px 0 var(--color-secondary);
-    animation: glitch-after 1.5s infinite;
-}
-
-@keyframes glitch {
-    0% { transform: none; opacity: 1; }
-    7% { transform: skewX(-20deg); opacity: 0.8; }
-    14% { transform: skewX(0); opacity: 1; }
-}
-
-@keyframes glitch-before {
-    0% { transform: none; }
-    7% { transform: translate(-2px, 0); }
-    14% { transform: translate(2px, 0); }
-}
-@keyframes glitch-after {
-    0% { transform: none; }
-    7% { transform: translate(2px, 0); }
-    14% { transform: translate(-2px, 0); }
-}
-
-/* --- Estilos Generales --- */
+/* --- Estilos del Ciber-Mapa (Navegación) --- */
 .header {
     width: 100%;
-    padding: 2rem;
+    padding: 1.5rem 0;
     display: flex;
     justify-content: center;
     position: fixed;
@@ -199,24 +293,84 @@ body::before {
     z-index: 100;
 }
 
-.navbar {
-    display: flex;
-    gap: 2rem;
+#cyber-map-container {
+    width: 90%;
+    max-width: 800px;
+    height: 100px;
 }
 
-.nav-link {
-    text-decoration: none;
-    color: var(--color-text-light);
-    padding: 0.5rem 1rem;
-    border: 1px solid transparent;
+#cyber-map {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.cyber-path {
+    stroke: var(--color-secondary);
+    opacity: 0.5;
+    stroke-width: 2;
+    transition: stroke 0.5s ease;
+}
+
+.cyber-path.active {
+    stroke: var(--color-primary);
+    stroke-width: 4;
+    animation: pulse 1s infinite alternate;
+    opacity: 1;
+}
+
+.cyber-node-group {
+    cursor: pointer;
+}
+
+.cyber-node-bg {
+    fill: transparent;
+    stroke: var(--color-secondary);
+    stroke-width: 2;
     transition: all 0.3s ease;
 }
 
-.nav-link:hover, .nav-link.active {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
+.cyber-node-inner {
+    fill: rgba(0, 166, 251, 0.1);
+    stroke: var(--color-primary);
+    stroke-width: 1;
+    transition: all 0.3s ease;
 }
 
+.cyber-node-group.active .cyber-node-bg,
+.cyber-node-group:hover .cyber-node-bg {
+    fill: rgba(0, 166, 251, 0.3);
+    box-shadow: 0 0 15px var(--color-primary);
+}
+
+.cyber-node-group.active .cyber-node-inner,
+.cyber-node-group:hover .cyber-node-inner {
+    stroke-width: 2;
+    animation: glow-pulse 1.5s infinite;
+}
+
+.cyber-node-label {
+    fill: var(--color-text-light);
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Animaciones del Ciber-Mapa */
+@keyframes pulse {
+    from { stroke-width: 2; }
+    to { stroke-width: 4; }
+}
+
+@keyframes glow-pulse {
+    0% { filter: drop-shadow(0 0 5px var(--color-primary)); }
+    100% { filter: drop-shadow(0 0 10px var(--color-primary)); }
+}
+
+/* --- Contenido principal y secciones --- */
 .main-content {
     flex: 1;
     display: flex;
@@ -230,13 +384,13 @@ body::before {
     justify-content: center;
     align-items: center;
     text-align: center;
+    flex-direction: column;
 }
 
 .section.active {
     display: flex;
 }
 
-/* --- Secciones y Contenedores --- */
 .intro-container {
     padding: 2rem;
     border: 1px solid var(--color-primary);
@@ -275,15 +429,16 @@ body::before {
     border-color: var(--color-primary);
 }
 
+/* --- ESTILOS DE GRID REFINADOS PARA PROYECTOS --- */
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
     width: 80%;
     max-width: 1200px;
+    margin: 0 auto;
 }
 
-/* Regla para ocultar los proyectos */
 .project-card.hidden {
     display: none;
 }
@@ -294,6 +449,11 @@ body::before {
     border: 1px solid var(--color-secondary);
     border-radius: 8px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: left;
+    height: 100%;
 }
 
 .project-card:hover {
@@ -308,26 +468,21 @@ body::before {
     color: var(--color-primary);
 }
 
-.contact-info a {
+.project-link {
+    display: inline-block;
+    margin-top: 1rem;
     color: var(--color-primary);
     text-decoration: none;
-    font-size: 1.2rem;
-    margin: 0 1rem;
-    transition: color 0.3s ease;
 }
 
-.contact-info a:hover {
-    color: var(--color-text-light);
-}
-
-/* --- Estilos para la sección de Habilidades --- */
+/* --- ESTILOS DE GRID REFINADOS PARA HABILIDADES --- */
 .skills-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 2rem;
     width: 90%;
     max-width: 900px;
-    margin-top: 2rem;
+    margin: 2rem auto;
 }
 
 .skill-card {
@@ -431,4 +586,111 @@ body::before {
 /* --- Estilos de la sección de contacto --- */
 .contact-info {
     margin-bottom: 2rem;
+}
+
+.contact-info a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-size: 1.2rem;
+    margin: 0 1rem;
+    transition: color 0.3s ease;
+}
+
+.contact-info a:hover {
+    color: var(--color-text-light);
+}
+
+/* --- Estilos para el Footer (Pie de Página) --- */
+.main-footer {
+    width: 100%;
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: auto; /* Empuja el footer hacia la parte inferior */
+}
+
+.privacy-link {
+    text-decoration: none;
+    color: var(--color-text-dark);
+    border: 1px solid var(--color-secondary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.privacy-link:hover {
+    background-color: var(--color-secondary);
+    color: var(--color-text-light);
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+}
+
+/* ------------------------------------- */
+/* --- MEDIA QUERIES PARA RESPONSIVIDAD --- */
+/* ------------------------------------- */
+
+@media (max-width: 768px) {
+    .header {
+        padding: 1rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .intro-container {
+        padding: 1rem;
+        width: 90%;
+    }
+
+    .glitch {
+        font-size: 2.5rem;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        width: 90%;
+    }
+
+    .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1rem;
+        width: 95%;
+    }
+
+    .skill-card {
+        padding: 1rem;
+    }
+    
+    #contact-form {
+        padding: 1.5rem;
+    }
+
+    #cyber-map-container {
+        width: 100%;
+        height: 80px;
+    }
+
+    #cyber-map {
+        viewBox: 0 0 800 120;
+    }
+
+    .cyber-node-label {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 0.9rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    #splash-screen .glitch {
+        font-size: 6rem;
+    }
 }
